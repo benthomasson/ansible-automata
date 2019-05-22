@@ -1,0 +1,4 @@
+---
+- from_fsm: FSM2
+  to_fsm: FSM1
+...

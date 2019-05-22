@@ -1,0 +1,4 @@
+- name: FSM1
+  gather_facts: False
+  hosts: localhost
+  import_from: tests/inputs/fsm1.yml

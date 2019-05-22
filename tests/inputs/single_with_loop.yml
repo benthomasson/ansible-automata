@@ -1,0 +1,27 @@
+- name: FSM1
+  gather_facts: False
+  hosts: localhost
+  states:
+      - name: Start
+        handlers:
+            enter:
+                - change_state: Loop1
+            exit:
+                - debug:
+                    msg: Exit
+      - name: Loop1
+        handlers:
+            enter:
+                - debug:
+                    msg: Loop1
+                - change_state: Loop2
+            die:
+                - shutdown:
+      - name: Loop2
+        handlers:
+            enter:
+                - debug:
+                    msg: Loop2
+                - change_state: Loop1
+            die:
+                - shutdown:

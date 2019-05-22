@@ -1,0 +1,10 @@
+name: Hi
+gather_facts: False
+hosts: localhost
+states:
+  - name: Start
+    handlers:
+      enter:
+        - debug:
+            msg: Hi
+        - shutdown:

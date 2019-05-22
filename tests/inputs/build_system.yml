@@ -1,0 +1,33 @@
+- name: FSM1
+  gather_facts: False
+  hosts: localhost
+  states:
+      - name: Start
+        handlers:
+            enter:
+                - change_state: Ready
+      - name: Ready
+        handlers:
+            enter:
+                - debug:
+                    msg: Ready
+            push:
+                - change_state: Build
+      - name: Build
+        handlers:
+            enter:
+                - debug:
+                    msg: Build
+                - change_state: Verify
+      - name: Verify
+        handlers:
+            enter:
+                - debug:
+                    msg: Verify
+                - change_state: Deploy
+      - name: Deploy
+        handlers:
+            enter:
+                - debug:
+                    msg: Deploy
+                - change_state: Ready

@@ -1,0 +1,17 @@
+- name: FSM1
+  gather_facts: False
+  hosts: localhost
+  states:
+      - name: Start
+        handlers:
+            enter:
+                - debug:
+                    msg: Start-enter
+                - send_event:
+                    name: self_message
+                    self: true
+            self_message:
+                - debug:
+                    msg: Start-self_message
+                - buffer_message:
+                - pop_message:

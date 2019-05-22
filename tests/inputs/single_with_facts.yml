@@ -1,0 +1,30 @@
+- name: FSM1
+  gather_facts: False
+  hosts: localhost
+  states:
+      - name: Start
+        handlers:
+            enter:
+                - set_fact:
+                    message: "Hello facts!"
+                    cacheable: true
+                - change_state: Loop1
+            exit:
+                - debug:
+                    msg: Exit
+      - name: Loop1
+        handlers:
+            enter:
+                - debug:
+                    var: message
+                - change_state: Loop2
+            die:
+                - shutdown:
+      - name: Loop2
+        handlers:
+            enter:
+                - debug:
+                    var: message
+                - change_state: Loop1
+            die:
+                - shutdown:

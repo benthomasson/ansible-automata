@@ -1,0 +1,8 @@
+---
+- name: Channel1
+  from_fsm: FSM1
+  to_fsm: FSM2
+- name: Channel2
+  from_fsm: FSM2
+  to_connector: zmq
+...

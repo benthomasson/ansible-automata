@@ -1,0 +1,6 @@
+---
+- type: websocket
+  name: websocket
+- type: zmq
+  name: zmq
+...

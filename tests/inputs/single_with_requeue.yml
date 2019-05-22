@@ -1,0 +1,48 @@
+- name: FSM1
+  gather_facts: False
+  hosts: localhost
+  states:
+      - name: Start
+        handlers:
+            enter:
+                - debug:
+                    msg: Start-enter
+                - send_event:
+                    name: self_message
+                    self: true
+            never1:
+                - debug:
+                    msg: NEVER1
+            self_message:
+                - debug:
+                    msg: Start-self_message
+                - assert:
+                    that: "true == false"
+                - debug:
+                    msg: UNREACHABLE1
+                - debug:
+                    msg: UNREACHABLE2
+                - debug:
+                    msg: UNREACHABLE3
+                - debug:
+                    msg: UNREACHABLE4
+                - debug:
+                    msg: UNREACHABLE5
+                - debug:
+                    msg: UNREACHABLE6
+            never2:
+                - debug:
+                    msg: NEVER2
+            failure:
+                - debug:
+                    msg: Start-failure
+                - debug:
+                    var: event.failure_count
+                - send_event:
+                    requeue: true
+                  when: event.failure_count < 5
+                - shutdown:
+                  when: event.failure_count >= 5
+            never3:
+                - debug:
+                    msg: NEVER3

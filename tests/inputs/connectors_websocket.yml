@@ -1,0 +1,4 @@
+---
+- type: websocket
+  name: websocket
+...

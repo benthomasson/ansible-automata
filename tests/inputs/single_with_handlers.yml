@@ -1,0 +1,15 @@
+- name: FSM1
+  gather_facts: False
+  hosts: localhost
+  states:
+      - name: Start
+        handlers:
+            enter:
+                - change_state: End
+            exit:
+                - debug:
+                    msg: Exit
+      - name: End
+        handlers:
+            enter:
+                - shutdown:

@@ -1,0 +1,5 @@
+---
+- type: zmq
+  name: zmq
+  bind_port: 5556
+...

@@ -1,0 +1,42 @@
+- name: FSM1
+  gather_facts: False
+  hosts: localhost
+  states:
+      - name: Start
+        handlers:
+            enter:
+                - debug:
+                    msg: FSM1 Start
+                - change_state: A
+      - name: A
+        handlers:
+            enter:
+                - debug:
+                    msg: FSM1 A
+            event1:
+                - change_state: B
+      - name: B
+        handlers:
+            enter:
+                - debug:
+                    msg: FSM1 B
+            event2:
+                - shutdown:
+- name: FSM2
+  gather_facts: False
+  hosts: localhost
+  states:
+      - name: Start
+        handlers:
+            enter:
+                - debug:
+                    msg: FSM2 Start
+                - send_event:
+                    fsm: FSM1
+                    name: "{{item}}"
+                  with_items:
+                      - event1
+                      - event2
+                      - event1
+                - shutdown:
+

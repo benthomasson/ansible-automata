@@ -1,0 +1,4 @@
+---
+- from_fsm: FSM1
+  to_connector: websocket
+...

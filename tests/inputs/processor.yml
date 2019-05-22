@@ -1,0 +1,9 @@
+- name: FSM1
+  gather_facts: False
+  hosts: localhost
+  states:
+      - name: Start
+        handlers:
+            process:
+                - debug:
+                    var: event

@@ -1,0 +1,40 @@
+- name: FSM1
+  gather_facts: False
+  hosts: localhost
+  states:
+      - name: Start
+        handlers:
+            enter:
+                - set_fact:
+                    event:
+                        client_id: None
+                - change_state: A
+      - name: A
+        handlers:
+            enter:
+                - debug:
+                    msg: A
+                - debug:
+                    var: event
+                - send_event:
+                    name: A
+                    fsm: zmq
+                    data:
+                        client_id: "{{event.client_id}}"
+
+            event1:
+                - change_state: B
+      - name: B
+        handlers:
+            enter:
+                - debug:
+                    msg: B
+                - debug:
+                    var: event
+                - send_event:
+                    name: B
+                    fsm: zmq
+                    data:
+                        client_id: "{{event.client_id}}"
+            event2:
+                - change_state: A

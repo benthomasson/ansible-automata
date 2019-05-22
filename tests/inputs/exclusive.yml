@@ -1,0 +1,100 @@
+#
+# Implements a simple queuing mechanism for exclusive resources.
+# Exclusive FSM controls the exclusive resource.
+# The protocol to request access to the resource is the following:
+# 1. send 'request' to Exclusive
+# 2. wait for a 'reply' from Exclusive
+# 3. send 'complete' to Exclusive when completed using the resource
+#
+# This is superior to locking mechanisms since there is a queue
+# of requests in the message buffer.  Each request will be handled
+# in FIFO order.
+#
+# This does depend on getting 'complete' messages for each 'reply'
+# message to keep functioning.   If no 'complete' messages are returned
+# the queue will not progress.   If more than one 'complete' message
+# is return for a single 'reply' then it might send a reply before
+# the next 'complete' is sent.  This could be mitigated with keeping
+# track of who we sent the reply to and ignoring all other complete
+# messages.
+#
+#
+- name: Exclusive
+  hosts: localhost
+  gather_facts: false
+  states:
+      - name: Start
+        handlers:
+            enter:
+                - change_state: Available
+      - name: Available
+        handlers:
+            enter:
+                - debug:
+                    msg: "Available"
+                - pop_message:
+            request:
+                - debug:
+                    msg: "request - reply"
+                - change_state: InUse
+                - send_event:
+                    name: reply
+                    reply: true
+      - name: InUse
+        handlers:
+            request:
+                - debug:
+                    msg: "request - buffer"
+                - buffer_message:
+            complete:
+                - debug:
+                    msg: "complete"
+                - change_state: Available
+- name: Requestor1
+  hosts: localhost
+  gather_facts: false
+  states:
+      - name: Start
+        handlers:
+            enter:
+                - change_state: Waiting
+      - name: Waiting
+        handlers:
+            enter:
+                - send_event:
+                    name: request
+                    fsm: Exclusive
+                - debug:
+                    msg: "Requestor1 Waiting"
+            reply:
+                - debug:
+                    msg: "Requestor1 Replied!"
+                - send_event:
+                    name: complete
+                    fsm: Exclusive
+
+- name: Requestor2
+  hosts: localhost
+  gather_facts: false
+  states:
+      - name: Start
+        handlers:
+            enter:
+                - change_state: Waiting
+      - name: Waiting
+        handlers:
+            enter:
+                - send_event:
+                    name: request
+                    fsm: Exclusive
+                - debug:
+                    msg: "Requestor2 Waiting"
+            reply:
+                - debug:
+                    msg: "Requestor2 Replied!"
+                - send_event:
+                    name: complete
+                    fsm: Exclusive
+
+
+

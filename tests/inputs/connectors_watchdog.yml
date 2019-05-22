@@ -1,0 +1,4 @@
+---
+- type: local_file_watchdog
+  name: local_file_watchdog
+...

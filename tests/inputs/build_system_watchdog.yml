@@ -1,0 +1,24 @@
+- name: FSM1
+  gather_facts: False
+  hosts: localhost
+  states:
+      - name: Start
+        handlers:
+            enter:
+                - file:
+                    path: workspace
+                    state: directory
+                    mode: 0755
+                - change_state: Ready
+      - name: Ready
+        handlers:
+            enter:
+                - debug:
+                    msg: Ready
+            FileCreatedEvent:
+                - debug:
+                    var: event.src_path
+                - unarchive:
+                    src: "{{event.src_path}}"
+                    dest: workspace
+                  when: event.src_path.endswith('.zip')

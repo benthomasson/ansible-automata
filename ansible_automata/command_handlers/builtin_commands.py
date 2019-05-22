@@ -1,12 +1,12 @@
 
 
-from ansible_runner.automata import messages
+from ansible_automata import messages
 from ansible_runner.task_service.messages import Task, RunnerMessage
 
 from gevent.queue import Empty
 
 import logging
-logger = logging.getLogger('ansible_runner.automata.fsm')
+logger = logging.getLogger('ansible_automata.fsm')
 
 DEFAULT_OUTPUT = 'default'
 

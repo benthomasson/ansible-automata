@@ -1,6 +1,6 @@
 
-from ansible_runner.automata import ast
-from ansible_runner.automata import parser
+from ansible_automata import ast
+from ansible_automata import parser
 import yaml
 import os
 

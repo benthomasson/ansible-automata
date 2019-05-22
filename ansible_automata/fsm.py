@@ -14,7 +14,7 @@ import shutil
 from itertools import count
 from .command_handlers import registry as command_registry
 
-logger = logging.getLogger('ansible_runner.automata.fsm')
+logger = logging.getLogger('ansible_automata.fsm')
 
 NULL_EVENT = messages.Event(0, 0, 'null', {})
 

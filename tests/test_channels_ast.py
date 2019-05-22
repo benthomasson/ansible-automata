@@ -1,6 +1,6 @@
 
-from ansible_runner.automata import channels_ast
-from ansible_runner.automata import channels_parser
+from ansible_automata import channels_ast
+from ansible_automata import channels_parser
 import yaml
 import os
 

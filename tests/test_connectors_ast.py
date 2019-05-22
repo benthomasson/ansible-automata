@@ -1,6 +1,6 @@
 
-from ansible_runner.automata import connectors_ast
-from ansible_runner.automata import connectors_parser
+from ansible_automata import connectors_ast
+from ansible_automata import connectors_parser
 import yaml
 import os
 

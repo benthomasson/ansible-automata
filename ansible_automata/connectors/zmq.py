@@ -7,7 +7,7 @@ from .. import messages
 from itertools import count
 import logging
 
-logger = logging.getLogger('ansible_runner.automata.connectors.zmq')
+logger = logging.getLogger('ansible_automata.connectors.zmq')
 
 
 class ZMQEventChannel(object):
